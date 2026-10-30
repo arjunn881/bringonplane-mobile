@@ -1,36 +1,46 @@
-import { useState, useEffect, useCallback } from 'react';
-import { SearchResult } from '../types';
-import { fetchSearchIndex, filterItems } from '../lib/api';
+import { useState, useMemo, useCallback } from 'react';
+import { ALL_ITEMS, ItemData, searchItems } from '../data/items';
 
 export function useSearch() {
-  const [index, setIndex] = useState<SearchResult[]>([]);
-  const [results, setResults] = useState<SearchResult[]>([]);
   const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchSearchIndex()
-      .then((data) => {
-        setIndex(data);
-        setResults(data);
-      })
-      .catch(() => setError('Could not load items. Check your connection.'))
-      .finally(() => setLoading(false));
+  const results = useMemo(() => {
+    let list: ItemData[] = ALL_ITEMS;
+    if (selectedCategory) {
+      list = list.filter(
+        (i) => i.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
+    }
+    if (!query.trim()) {
+      return list;
+    }
+    return searchItems(query).filter((item) => {
+      if (!selectedCategory) return true;
+      return item.category.toLowerCase() === selectedCategory.toLowerCase();
+    });
+  }, [query, selectedCategory]);
+
+  const search = useCallback((q: string) => {
+    setQuery(q);
   }, []);
 
-  const search = useCallback(
-    (q: string) => {
-      setQuery(q);
-      setResults(filterItems(index, q));
-    },
-    [index]
-  );
+  const selectCategory = useCallback((cat: string | null) => {
+    setSelectedCategory(cat);
+  }, []);
 
   const reset = useCallback(() => {
     setQuery('');
-    setResults(index);
-  }, [index]);
+    setSelectedCategory(null);
+  }, []);
 
-  return { results, query, loading, error, search, reset };
+  return {
+    results,
+    query,
+    selectedCategory,
+    totalCount: ALL_ITEMS.length,
+    search,
+    selectCategory,
+    reset,
+  };
 }

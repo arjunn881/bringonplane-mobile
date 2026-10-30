@@ -1,4 +1,4 @@
-import { Item, SearchResult, ItemStatus } from '../types';
+import { ItemData, ItemStatus } from '../types';
 
 const BASE_URL = 'https://bringonplane.com';
 
@@ -6,7 +6,7 @@ const BASE_URL = 'https://bringonplane.com';
  * Fetch item data from the bringonplane.com API / search-index.
  * Falls back to an empty array on network error.
  */
-export async function fetchSearchIndex(): Promise<SearchResult[]> {
+export async function fetchSearchIndex(): Promise<any[]> {
   try {
     const res = await fetch(`${BASE_URL}/search-index.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -21,7 +21,7 @@ export async function fetchSearchIndex(): Promise<SearchResult[]> {
 /**
  * Fetch full item detail for a given slug.
  */
-export async function fetchItem(slug: string): Promise<Item | null> {
+export async function fetchItem(slug: string): Promise<ItemData | null> {
   try {
     const res = await fetch(`${BASE_URL}/api/items/${slug}.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -30,20 +30,6 @@ export async function fetchItem(slug: string): Promise<Item | null> {
     console.warn(`[api] fetchItem(${slug}) failed:`, e);
     return null;
   }
-}
-
-/**
- * Search items by query string (client-side filter on search index).
- */
-export function filterItems(index: SearchResult[], query: string): SearchResult[] {
-  if (!query.trim()) return index;
-  const q = query.toLowerCase();
-  return index.filter(
-    (item) =>
-      item.name.toLowerCase().includes(q) ||
-      item.category.toLowerCase().includes(q) ||
-      item.summary?.toLowerCase().includes(q)
-  );
 }
 
 /**

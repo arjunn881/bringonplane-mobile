@@ -1,39 +1,55 @@
 export type ItemStatus = 'allowed' | 'not_allowed' | 'conditional' | 'unknown';
 
-export interface ItemRule {
-  airline?: string;
-  country?: string;
+export interface BagRule {
   status: ItemStatus;
-  note?: string;
+  reason: string;
+  conditions: string[];
 }
 
-export interface Item {
+export interface AirlineRule {
+  name: string;
+  status: ItemStatus;
+  notes: string;
+}
+
+export interface CountryRule {
+  status: ItemStatus;
+  reason: string;
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+export interface ItemData {
   slug: string;
   name: string;
   category: string;
-  status: ItemStatus;
-  summary: string;
-  carryon?: string;
-  checked?: string;
-  notes?: string;
-  rules?: ItemRule[];
-  keywords?: string[];
-  aliases?: string[];
-}
-
-export interface SearchResult {
-  slug: string;
-  name: string;
-  category: string;
-  status: ItemStatus;
-  summary: string;
+  subcategory: string;
+  description: string;
+  aliases: string[];
+  keywords: string[];
+  carryOn: BagRule;
+  checkedBag: BagRule;
+  airlines: AirlineRule[];
+  international: Record<string, CountryRule>;
+  travelTips: string[];
+  faq: FAQ[];
+  relatedItems: string[];
+  tsa: { officialUrl: string; lastVerified: string; pageTitle: string } | null;
+  lastReviewed: string;
+  seoTitle: string;
+  seoDescription: string;
+  restrictionType: string;
 }
 
 export interface PackingItem {
   id: string;
   name: string;
-  slug: string;
-  status: ItemStatus;
+  slug?: string;
+  category?: string;
+  status?: ItemStatus;
   checked: boolean;
   addedAt: number;
 }
