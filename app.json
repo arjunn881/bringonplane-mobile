@@ -1,18 +1,21 @@
 {
   "expo": {
-    "name": "bringonplane-mobile",
-    "slug": "bringonplane-mobile",
+    "name": "BringOnPlane",
+    "slug": "bringonplane",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "bringonplanemobile",
+    "scheme": "bringonplane",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.bringonplane.app",
+      "supportsTablet": true
     },
     "android": {
+      "package": "com.bringonplane.app",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#208AEF",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"

@@ -1,0 +1,28 @@
+export const Colors = {
+  primary: '#208AEF',
+  primaryDark: '#1670CC',
+  primaryLight: '#E6F4FE',
+  success: '#22C55E',
+  successLight: '#DCFCE7',
+  danger: '#EF4444',
+  dangerLight: '#FEE2E2',
+  warning: '#F59E0B',
+  warningLight: '#FEF3C7',
+  grey: '#6B7280',
+  greyLight: '#F3F4F6',
+  greyBorder: '#E5E7EB',
+  white: '#FFFFFF',
+  black: '#111827',
+  text: '#1F2937',
+  textMuted: '#6B7280',
+  background: '#F9FAFB',
+  card: '#FFFFFF',
+  // Dark mode
+  dark: {
+    background: '#0F172A',
+    card: '#1E293B',
+    text: '#F1F5F9',
+    textMuted: '#94A3B8',
+    border: '#334155',
+  },
+};
